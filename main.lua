@@ -225,3 +225,44 @@ Players.PlayerRemoving:Connect(refreshPlayers)
 refreshPlayers()
 
 gui.Parent = player:WaitForChild("PlayerGui")
+
+-- COOLGUY V5.2
+-- Player management buttons
+
+local function createAdminButton(name, y, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.88, 0, 0, 34)
+    button.Position = UDim2.new(0.06, 0, 0, y)
+    button.BackgroundColor3 = Color3.fromRGB(105, 65, 155)
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 14
+    button.Text = name
+    button.Parent = frame
+
+    Instance.new("UICorner", button).CornerRadius =
+        UDim.new(0, 8)
+
+    button.MouseButton1Click:Connect(callback)
+end
+
+local status = Instance.new("TextLabel")
+status.Size = UDim2.new(0.88, 0, 0, 25)
+status.Position = UDim2.new(0.06, 0, 0, 355)
+status.BackgroundTransparency = 1
+status.TextColor3 = Color3.fromRGB(190, 135, 255)
+status.Text = "COOLGUY READY"
+status.Parent = frame
+
+createAdminButton("TARGET INFO", 355, function()
+    if selectedPlayer and selectedPlayer.Parent then
+        status.Text = "Selected: " .. selectedPlayer.Name
+    else
+        status.Text = "No target selected"
+    end
+end)
+
+createAdminButton("REFRESH TARGETS", 395, function()
+    refreshPlayers()
+    status.Text = "Player list refreshed"
+end)
